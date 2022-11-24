@@ -1,3 +1,4 @@
+import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Button, FlatList, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import GoalInput from './components/GoalInput';
@@ -6,6 +7,10 @@ import GoalList from './components/GoalList';
 export default function App() {
   const [goals, setGoals] = useState([]);
   const [isModalOpen, setisModalOpen] = useState(false);
+
+  const handleModalVisibility = () => {
+    setisModalOpen(!isModalOpen);
+  };
 
   const goalHandler = (goal) => {
     if (!goal) return;
@@ -19,11 +24,18 @@ export default function App() {
   };
 
   return (
-    <View style={styles.appContainer}>
-      <Button color='purple' title='add goal' onPress={() => setisModalOpen(!isModalOpen)} />
-      <GoalInput goalHandler={goalHandler} isModalOpen={isModalOpen} />
-      <GoalList goals={goals} handleDelete={handleDelete} />
-    </View>
+    <>
+      <StatusBar />
+      <View style={styles.appContainer}>
+        <Button color='purple' title='add goal' onPress={handleModalVisibility} />
+        <GoalInput
+          goalHandler={goalHandler}
+          isModalOpen={isModalOpen}
+          handleModalVisibility={handleModalVisibility}
+        />
+        <GoalList goals={goals} handleDelete={handleDelete} />
+      </View>
+    </>
   );
 }
 
